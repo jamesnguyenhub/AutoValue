@@ -97,9 +97,11 @@ public class AutoValueProcessor extends AbstractProcessor {
         writer.println("    return this;");
         writer.println("  }");
         writer.println();
-
-        writer.close();
       }
+
+      writer.println("}");
+
+      writer.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
