@@ -36,6 +36,34 @@ public class User {
   }
 }
 ```
+
+UserBuilder will be generated as below
+```java
+public class UserBuilder {
+  private User object = new User();
+
+  public User build() {
+    return object;
+  }
+
+  public UserBuilder setPassword(java.lang.String value) {
+    object.setPassword(value);
+    return this;
+  }
+
+  public UserBuilder setUsername(java.lang.String value) {
+    object.setUsername(value);
+    return this;
+  }
+
+  public UserBuilder setEmail(java.lang.String value) {
+    object.setEmail(value);
+    return this;
+  }
+
+}
+```
+
 ## License
 
     Copyright 2017 Tuyen Monkey
