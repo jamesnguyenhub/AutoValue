@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Created by Tuyen Monkey on 3/23/17.
  */
 
-@Target(ElementType.METHOD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface AutoValue {
 }

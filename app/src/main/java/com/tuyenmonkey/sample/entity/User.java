@@ -6,6 +6,7 @@ import com.tuyenmonkey.autovalue.annotation.AutoValue;
  * Created by Tuyen Monkey on 3/23/17.
  */
 
+@AutoValue
 public class User {
   private String username;
   private String password;
@@ -18,7 +19,6 @@ public class User {
     return username;
   }
 
-  @AutoValue
   public void setUsername(String username) {
     this.username = username;
   }
@@ -27,7 +27,6 @@ public class User {
     return password;
   }
 
-  @AutoValue
   public void setPassword(String password) {
     this.password = password;
   }
@@ -36,7 +35,6 @@ public class User {
     return email;
   }
 
-  @AutoValue
   public void setEmail(String email) {
     this.email = email;
   }

@@ -1,5 +1,6 @@
 package com.tuyenmonkey.autovalue.compiler;
 
+import com.tuyenmonkey.autovalue.annotation.AutoValue;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.ExecutableType;
 import javax.tools.JavaFileObject;
@@ -23,19 +25,37 @@ import javax.tools.JavaFileObject;
 public class AutoValueProcessor extends AbstractProcessor {
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    for (TypeElement annotation : annotations) {
-      Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(annotation);
+    //processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+    //    "@AutoValue must be applied to a setXxx method "
+    //        + "with a single argument", element);
 
-      List<Element> setterMethods = collectSetterMethods(annotatedElements);
+    Set<? extends Element> annotatedElements = roundEnv.getElementsAnnotatedWith(AutoValue.class);
 
-      if (setterMethods.isEmpty()) continue;
-
-      String className = ((TypeElement)setterMethods.get(0).getEnclosingElement()).getQualifiedName().toString();
+    for (Element classElement : annotatedElements) {
+      String className = ((TypeElement)classElement).getQualifiedName().toString();
+      List<Element> setterMethods = collectSetterMethods(classElement, roundEnv);
       Map<String, String> setterMap = buildSetterMethodsMap(setterMethods);
 
       writeToFile(className, setterMap);
     }
     return true;
+  }
+
+  private List<Element> collectSetterMethods(Element classElement, RoundEnvironment roundEnv) {
+    List<? extends Element> methods = classElement.getEnclosedElements();
+    List<Element> setterMethods = new ArrayList<>();
+
+    for (Element method : methods) {
+      ElementKind elementKind = method.getKind();
+      if (elementKind == ElementKind.METHOD) {
+        if (((ExecutableType)method.asType()).getParameterTypes().size() == 1
+            && method.getSimpleName().toString().startsWith("set")) {
+          setterMethods.add(method);
+        }
+      }
+    }
+
+    return setterMethods;
   }
 
   private void writeToFile(String className, Map<String, String> setterMap) {
@@ -117,18 +137,5 @@ public class AutoValueProcessor extends AbstractProcessor {
     }
 
     return setterMap;
-  }
-
-  private List<Element> collectSetterMethods(Set<? extends Element> annotatedElements) {
-    List<Element> setterMethods = new ArrayList<>();
-
-    for (Element annotatedElement : annotatedElements) {
-      if (((ExecutableType)annotatedElement.asType()).getParameterTypes().size() == 1
-          && annotatedElement.getSimpleName().toString().startsWith("set")) {
-        setterMethods.add(annotatedElement);
-      }
-    }
-
-    return setterMethods;
   }
 }
