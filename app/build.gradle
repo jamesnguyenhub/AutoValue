@@ -25,5 +25,9 @@ dependencies {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
   compile 'com.android.support:appcompat-v7:25.2.0'
+
+  provided project(':auto-value-annotation')
+  annotationProcessor project(':auto-value-compiler')
+
   testCompile 'junit:junit:4.12'
 }
