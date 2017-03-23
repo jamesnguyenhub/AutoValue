@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/auto-value-annotation/auto-value-annotation.iml" filepath="$PROJECT_DIR$/auto-value-annotation/auto-value-annotation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/auto-value-compiler/auto-value-compiler.iml" filepath="$PROJECT_DIR$/auto-value-compiler/auto-value-compiler.iml" />
     </modules>
   </component>
 </project>
